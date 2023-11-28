@@ -1,5 +1,5 @@
 import axios from "axios";
-import notiflix from "notiflix";
+import Notiflix from "notiflix";
 
 const API_KEY = '40921400-16e67c90d6d4404c43b5f3edb';
 const ENDPOINT = 'https://pixabay.com/api/';
@@ -8,22 +8,37 @@ export default class PhotosApi {
   constructor() {
     this.queryPage = 1;
     this.searchQuery = '';
+    this.pageSize = 40;
+    this.totalHits = 0;
   }
 
-  async getPhotos(pageSize = 1, imageType = 'photo', orientation = 'horizontal') {
-    const url = `${ENDPOINT}?q=${this.searchQuery}&page=${this.queryPage}&image_type=${imageType}&orientation=${orientation}&safesearch=true&per_page=${pageSize}`;
-    const headers = {
-      'X-Api-Key': API_KEY
-    };
+  async getPhotos(searchQuery) {
+    this.searchQuery = searchQuery;
+    const url = `${ENDPOINT}?key=${API_KEY}&q=${this.searchQuery}&page=${this.queryPage}&per_page=${this.pageSize}&image_type=photo&orientation=horizontal&safesearch=true`;
 
     try {
-      const response = await axios.get(url, { headers });
+      const response = await axios.get(url);
+      const images = response.data.hits;
+
+      if (images.length === 0) {
+        Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+        return [];
+      }
+
+      this.totalHits = response.data.totalHits;
       this.incrementPage();
-      Notiflix.Notify.success('Imagini încărcate cu succes!');
-      return response.data;
+      return images.map(image => ({
+        webformatURL: image.webformatURL,
+        largeImageURL: image.largeImageURL,
+        tags: image.tags,
+        likes: image.likes,
+        views: image.views,
+        comments: image.comments,
+        downloads: image.downloads,
+      }));
     } catch (error) {
-      console.error('Eroare la preluarea imaginilor:', error);
-      Notiflix.Notify.failure('Eroare la preluarea imaginilor. Vă rugăm să încercați din nou mai târziu.');
+      console.error('Error fetching photos:', error);
+      Notiflix.Notify.failure('Error fetching images. Please try again later.');
       throw error;
     }
   }
@@ -34,5 +49,9 @@ export default class PhotosApi {
 
   incrementPage() {
     this.queryPage += 1;
+  }
+
+  hasMorePages() {
+    return this.queryPage <= Math.ceil(this.totalHits / this.pageSize);
   }
 }

@@ -1,54 +1,75 @@
-import PhotosApi from './api.js';
-import { createImageCard, clearGallery } from './markup.js';
-import notiflix from "notiflix";
-import LoadMore from './loadMoreBtn.js';
+import axios from "axios";
+import Notiflix from "notiflix";
+import PhotosApi from "./api.js";
+import { createImageCard, clearGallery } from "./markup.js";
+
+class LoadMoreBtn {
+  constructor(selector, photosApi) {
+    this.button = document.querySelector(selector);
+    this.photosApi = photosApi;
+    this.initialize();
+  }
+
+  initialize() {
+    this.button.addEventListener("click", this.loadMoreImages.bind(this));
+    this.hide();
+  }
+
+  async loadMoreImages() {
+    try {
+      const images = await this.photosApi.getPhotos();
+      if (images.length > 0) {
+        this.displayImages(images);
+      } else {
+        this.hide();
+        Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+      }
+    } catch (error) {
+      console.error('Error fetching photos:', error);
+      Notiflix.Notify.failure('Error fetching images. Please try again later.');
+    }
+  }
+
+  displayImages(images) {
+    images.forEach(image => {
+      const card = createImageCard(image);
+      document.querySelector('.gallery').appendChild(card);
+    });
+  }
+
+  hide() {
+    this.button.style.display = "none";
+  }
+
+  show() {
+    this.button.style.display = "block";
+  }
+}
 
 const form = document.getElementById('search-form');
 const gallery = document.querySelector('.gallery');
-
-const loadMore = new LoadMore({
-    selector: '#loadMore',
-    ishidden: true
-  })
-
 const photosApi = new PhotosApi();
+const loadMoreBtn = new LoadMoreBtn('#loadMore', photosApi);
 
-form.addEventListener('submit', onsubmit);
+form.addEventListener('submit', onFormSubmit);
 
-async function onsubmit(event) {
- // loadMore.button.addEventListener('click', displayImages);
+async function onFormSubmit(event) {
   event.preventDefault();
-  const form = event.currentTarget;
-  photosApi.searchQuery = form.element.photos.value.trim();
+  const searchQuery = event.currentTarget.elements.searchQuery.value.trim();
   clearGallery();
+  loadMoreBtn.hide();
   photosApi.resetPage();
 
-    try {
-      await displayImage();
-      displayImages(images);
-    // loadMoreBtn.show();
-    } catch (error) {
-      console.error('Error fetching photos:', error);
-      notiflix.Notify.Failure('Error fetching images. Please try again later.');
+  try {
+    const images = await photosApi.getPhotos(searchQuery);
+    if (images.length > 0) {
+      loadMoreBtn.show();
+      loadMoreBtn.displayImages(images);
+    } else {
+      Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
     }
-   finally {
-    form.reset();
+  } catch (error) {
+    console.error('Error fetching photos:', error);
+    Notiflix.Notify.failure('Error fetching images. Please try again later.');
   }
-};
-
-async function displayImages(images) {
-      // loadMoreBtn.disable();
-  clearGallery();
-// loadMoreBtn.enable();
-  if (images.length === 0) {
-    notiflix.Notify.Failure('Sorry, there are no images matching your search query. Please try again.');
-    return;
-  }
-
-  // Creează carduri pentru fiecare imagine și adaugă-le la galerie
-  images.forEach(image => {
-    const card = createImageCard(image);
-    gallery.appendChild(card);
-  });
-
 }

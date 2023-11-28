@@ -1,30 +1,33 @@
-export default class LoadMore {
-    constructor({selector, ishidden = false}) {
-        this.button = this.getBtn(selector);
-
-        ishidden && this.hideBtn();
-    }
-
-    getBtn(selector) {
-        return document.querySelector(selector);
-    };
-
-    enable() {
-        this.button.disabled = false;
-        this.button.textContent = 'Load more';
-    }
-
-    disable() {
-        this.button.disabled = true;
-        this.button.textContent = 'Loading...';
-    }
-
-    hideBtn() {
-        this.button.classList.add('hidden');
-    };
-
-    showBtn() {
-        this.button.classList.remove('hidden');
-    };
-}
-
+// export default class LoadMoreBtn {
+//     constructor(selector) {
+//       this.button = document.querySelector(selector);
+  
+//       if (this.button) {
+//         this.isHidden = true;
+//         this.button.addEventListener('click', this.onClick.bind(this));
+//       } else {
+//         console.error(`Element with selector ${selector} not found.`);
+//       }
+//     }
+  
+//     onClick() {
+//         if (this.onClickCallback) {
+//           this.onClickCallback();
+//         }
+//       }
+    
+//       show() {
+//         this.isHidden = false;
+//         this.button.style.display = 'block';
+//       }
+    
+//       hide() {
+//         this.isHidden = true;
+//         this.button.style.display = 'none';
+//       }
+    
+//       setOnClickCallback(callback) {
+//         this.onClickCallback = callback;
+//       }
+//   }
+  
