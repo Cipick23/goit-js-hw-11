@@ -1,38 +1,42 @@
-import { getPhotos } from './api.js';
+import PhotosApi from './api.js';
 import { createImageCard, clearGallery } from './markup.js';
 import notiflix from "notiflix";
-import loadMore from './loadMoreBtn.js';
+import LoadMore from './loadMoreBtn.js';
 
 const form = document.getElementById('search-form');
 const gallery = document.querySelector('.gallery');
-const loadBtn = document.querySelector('loadMore');
 
-const loadMore = new loadMore({
+const loadMore = new LoadMore({
     selector: '#loadMore',
     ishidden: true
   })
 
+const photosApi = new PhotosApi();
 
-form.addEventListener('submit', async function (event) {
- // loadMoreBtn.button.addEventListener('click', displayImages);
+form.addEventListener('submit', onsubmit);
+
+async function onsubmit(event) {
+ // loadMore.button.addEventListener('click', displayImages);
   event.preventDefault();
-  const searchQuery = event.target.searchQuery.value.trim();
+  const form = event.currentTarget;
+  photosApi.searchQuery = form.element.photos.value.trim();
+  clearGallery();
+  photosApi.resetPage();
 
-  if (searchQuery !== '') {
     try {
-      const images = await getPhotos(searchQuery);
+      await displayImage();
       displayImages(images);
     // loadMoreBtn.show();
     } catch (error) {
       console.error('Error fetching photos:', error);
       notiflix.Notify.Failure('Error fetching images. Please try again later.');
     }
-  } else {
-    notiflix.Notify.Info('Please enter a search query.');
+   finally {
+    form.reset();
   }
-});
+};
 
-function displayImages(images) {
+async function displayImages(images) {
       // loadMoreBtn.disable();
   clearGallery();
 // loadMoreBtn.enable();
