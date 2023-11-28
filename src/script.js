@@ -1,34 +1,50 @@
 import { getPhotos } from './api.js';
-import { createMarkup, updateNewsList } from './markup.js';
+import { createImageCard, clearGallery } from './markup.js';
+import notiflix from "notiflix";
+import loadMore from './loadMoreBtn.js';
 
 const form = document.getElementById('search-form');
+const gallery = document.querySelector('.gallery');
+const loadBtn = document.querySelector('loadMore');
 
-form.addEventListener('submit', onSubmit);
+const loadMore = new loadMore({
+    selector: '#loadMore',
+    ishidden: true
+  })
 
-async function onSubmit(e) {
-    e.preventDefault();
 
-    const form = e.currentTarget;
-    const inputValue = form.elements.news.value;
+form.addEventListener('submit', async function (event) {
+ // loadMoreBtn.button.addEventListener('click', displayImages);
+  event.preventDefault();
+  const searchQuery = event.target.searchQuery.value.trim();
 
+  if (searchQuery !== '') {
     try {
-
-        const articles = await API.getPhotos(inputValue);
-
-        if (articles.length === 0) {
-            updateNewsList(`<p> Nu am gasit rezultate </p>`);
-            return;
-        }
-
-        const markup = articles.reduce( (markup, article) => createMarkup(article) + markup, '');
-        updateNewsList(markup);
-
-    } catch (err) {
-        onError(err);
+      const images = await getPhotos(searchQuery);
+      displayImages(images);
+    // loadMoreBtn.show();
+    } catch (error) {
+      console.error('Error fetching photos:', error);
+      notiflix.Notify.Failure('Error fetching images. Please try again later.');
     }
-}
+  } else {
+    notiflix.Notify.Info('Please enter a search query.');
+  }
+});
 
-function onError(err) {
-    console.error(err);
-    updateNewsList(`<p> Nu am gasit rezultate </p>`);
+function displayImages(images) {
+      // loadMoreBtn.disable();
+  clearGallery();
+// loadMoreBtn.enable();
+  if (images.length === 0) {
+    notiflix.Notify.Failure('Sorry, there are no images matching your search query. Please try again.');
+    return;
+  }
+
+  // Creează carduri pentru fiecare imagine și adaugă-le la galerie
+  images.forEach(image => {
+    const card = createImageCard(image);
+    gallery.appendChild(card);
+  });
+
 }

@@ -1,22 +1,32 @@
 body {
     font-family: sans-serif;
+    border-radius: border-box;
+    background-color: #c1c1c1;
 }
 
 input {
+    text-decoration-color: #0d8069;
     padding: 10px 20px;
     border-radius: 15px;
     font-size: 30px;
-    border: 2px solid black;
+    border: 2px solid #0d8069;
+    width: 80%;
 }
 
+input::placeholder {
+    color: #0d8069;
+    opacity: 0.7; /* Opțional: puteți ajusta opacitatea placeholder-ului */
+  }
+
 button[type="submit"] {
-    background-color: rgb(25, 221, 182);
-    color: white;
+    background-color: #19ddb6;
+    color: #0d8069;
     cursor: pointer;
-    border-radius: 4px;
     padding: 10px 20px;
     border-radius: 15px;
     font-size: 30px;
+    border: 2px solid #0d8069;
+    margin-top: 10px;
 }
 
 .gallery {
@@ -49,4 +59,15 @@ button[type="submit"] {
     background-color: rgba(121, 154, 138, 0.731);
     color: white;
     padding: 10px 20px;
+}
+
+#loadMore {
+    background-color: rgb(25, 221, 182);
+    color: #0d8069;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-size: 30px;
+    border: 2px solid #0d8069;
 }
