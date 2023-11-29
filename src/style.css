@@ -1,7 +1,16 @@
 body {
-    font-family: sans-serif;
     border-radius: border-box;
     background-color: #c1c1c1;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    gap: 10px;
+    border-bottom: 3px solid #0d8069;
+    padding: 10px;
 }
 
 input {
@@ -11,22 +20,45 @@ input {
     font-size: 30px;
     border: 2px solid #0d8069;
     width: 80%;
+    background-color: transparent;
+    color: #302f2f;
+    font-family: 'Epilogue';
+    font-style: normal;
+    font-weight: 600;
+    line-height: 30px;
+    letter-spacing: 1px;
 }
 
 input::placeholder {
     color: #0d8069;
-    opacity: 0.7; /* Opțional: puteți ajusta opacitatea placeholder-ului */
-  }
+    opacity: 0.6;
+}
+
+input:hover {
+    border: 2px solid #0d8069;
+}
+
 
 button[type="submit"] {
-    background-color: #19ddb6;
+    background-color: transparent;
     color: #0d8069;
     cursor: pointer;
     padding: 10px 20px;
     border-radius: 15px;
     font-size: 30px;
     border: 2px solid #0d8069;
-    margin-top: 10px;
+}
+
+.submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.submit-btn:hover {
+    background-color: transparent;
+    box-shadow: 1px 4px 6px 0px #00000029, 0px 4px 4px 0px #0000000f, 0px 1px 1px 0px #0000001f;
 }
 
 .gallery {
@@ -38,12 +70,9 @@ button[type="submit"] {
     gap: 10px;
 }
 
-.article-card {
-    width: 30%;
-    text-align: center;
-    border-radius: 15px;
-    background-color: #c1c1c1;
-    padding: 20px;
+.article-card:hover {
+    cursor: pointer;
+    box-shadow: 1px 4px 6px 0px #00000029, 0px 4px 4px 0px #0000000f, 0px 1px 1px 0px #0000001f;
 }
 
 .article-img {
@@ -56,18 +85,48 @@ button[type="submit"] {
     border-radius: 15px;
     display: inline-block;
     text-decoration: none;
-    background-color: rgba(121, 154, 138, 0.731);
+    background-color: #799a8aba;
     color: white;
     padding: 10px 20px;
 }
 
 #loadMore {
-    background-color: rgb(25, 221, 182);
-    color: #0d8069;
+    background-color: transparent;
     cursor: pointer;
-    border-radius: 4px;
-    padding: 10px 20px;
     border-radius: 15px;
     font-size: 30px;
     border: 2px solid #0d8069;
+    color: var(--dark-green, #0d8069);
+    font-family: 'Epilogue';
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 44px;
+    /* 110% */
+    letter-spacing: -0.8px;
+    padding: 10px 20px;
+}
+
+#loadMore:hover {
+    background-color: transparent;
+    box-shadow: 1px 4px 6px 0px #00000029, 0px 4px 4px 0px #0000000f, 0px 1px 1px 0px #0000001f;
+}
+
+.svg-icon.search-icon {
+    width: 40px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+button .svg-icon.search-icon:hover {
+    stroke: #299ecc;
+    transition: width 0.5s, height 0.5s;
+}
+
+.svg-icon.search-icon:active {
+    stroke: #111516;
+    stroke-width: 2px;
 }
