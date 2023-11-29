@@ -8,12 +8,11 @@ export default class PhotosApi {
   constructor() {
     this.queryPage = 1;
     this.searchQuery = '';
-    this.pageSize = 40;
+    this.pageSize = 25;
     this.totalHits = 0;
   }
 
   async getPhotos(searchQuery) {
-    this.searchQuery = searchQuery;
     const url = `${ENDPOINT}?key=${API_KEY}&q=${this.searchQuery}&page=${this.queryPage}&per_page=${this.pageSize}&image_type=photo&orientation=horizontal&safesearch=true`;
 
     try {

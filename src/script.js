@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import Notiflix from "notiflix";
 import PhotosApi from "./api.js";
 import { createImageCard, clearGallery } from "./markup.js";
@@ -16,10 +16,17 @@ class LoadMoreBtn {
   }
 
   async loadMoreImages() {
+
     try {
-      const images = await this.photosApi.getPhotos();
+      const images = await this.photosApi.getPhotos(
+      this.photosApi.searchQuery,
+      this.photosApi.queryPage,
+      this.photosApi.pageSize
+      );
+      
       if (images.length > 0) {
-        this.displayImages(images);
+      this.displayImages(images);
+      this.photosApi.incrementPage();
       } else {
         this.hide();
         Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
@@ -56,12 +63,14 @@ form.addEventListener('submit', onFormSubmit);
 async function onFormSubmit(event) {
   event.preventDefault();
   const searchQuery = event.currentTarget.elements.searchQuery.value.trim();
+
   clearGallery();
   loadMoreBtn.hide();
   photosApi.resetPage();
 
   try {
     const images = await photosApi.getPhotos(searchQuery);
+    
     if (images.length > 0) {
       loadMoreBtn.show();
       loadMoreBtn.displayImages(images);

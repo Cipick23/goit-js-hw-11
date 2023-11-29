@@ -70,16 +70,6 @@ button[type="submit"] {
     gap: 10px;
 }
 
-.article-card:hover {
-    cursor: pointer;
-    box-shadow: 1px 4px 6px 0px #00000029, 0px 4px 4px 0px #0000000f, 0px 1px 1px 0px #0000001f;
-}
-
-.article-img {
-    width: 100%;
-    border-radius: 15px;
-}
-
 .article-link {
     text-transform: uppercase;
     border-radius: 15px;
@@ -102,7 +92,6 @@ button[type="submit"] {
     font-style: normal;
     font-weight: 600;
     line-height: 44px;
-    /* 110% */
     letter-spacing: -0.8px;
     padding: 10px 20px;
 }
