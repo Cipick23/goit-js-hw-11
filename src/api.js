@@ -39,6 +39,8 @@ export default class PhotosApi {
       console.error('Error fetching photos:', error);
       Notiflix.Notify.failure('Error fetching images. Please try again later.');
       throw error;
+    } finally {
+      Notiflix.Notify.success(`Hooray! We found ${this.totalHits} images.`);
     }
   }
 

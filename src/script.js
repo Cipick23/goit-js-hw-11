@@ -1,4 +1,4 @@
-
+// import { galleryContainer, galleryHandler } from './gallery.js';
 import Notiflix from "notiflix";
 import PhotosApi from "./api.js";
 import { createImageCard, clearGallery } from "./markup.js";
@@ -34,8 +34,7 @@ class LoadMoreBtn {
     } catch (error) {
       console.error('Error fetching photos:', error);
       Notiflix.Notify.failure('Error fetching images. Please try again later.');
-    }
-  }
+    }}
 
   displayImages(images) {
     images.forEach(image => {
