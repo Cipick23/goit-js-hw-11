@@ -33,3 +33,10 @@ async function onFormSubmit(event) {
     Notiflix.Notify.failure('Error fetching images. Please try again later.');
   }
 }
+
+function createInfoItem(label, value) {
+  const infoItem = document.createElement('p');
+  infoItem.classList.add('info-item');
+  infoItem.innerHTML = `<b>${label}:</b> ${value}`;
+  return infoItem;
+}

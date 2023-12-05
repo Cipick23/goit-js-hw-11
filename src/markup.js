@@ -9,7 +9,7 @@ function createImageCard(image) {
   const link = document.createElement('a');
   link.href = image.largeImageURL;
   link.setAttribute('data-lightbox', 'gallery');
-  link.classList.add('simplelightbox'); // Adăugați clasa simplelightbox la link
+  link.classList.add('simplelightbox');
 
   const img = document.createElement('img');
   img.src = image.webformatURL;
@@ -21,11 +21,6 @@ function createImageCard(image) {
 
   const info = document.createElement('div');
   info.classList.add('info');
-  info.style.display = 'flex';
-  info.style.flexDirection = 'row';
-  info.style.justifyContent = 'space-evenly';
-  info.style.border = '2px solid #0d8069';
-  info.style.borderRadius = '4px';
 
   const likes = createInfoItem('Likes', image.likes);
   const views = createInfoItem('Views', image.views);

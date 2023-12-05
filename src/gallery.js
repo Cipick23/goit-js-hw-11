@@ -12,13 +12,13 @@ export function unpackPhotos(images) {
     largeImageURL: image.largeImageURL,
   }));
 
-  // Adaugă fiecare imagine în galerie împreună cu linkul
+ 
   formattedImages.forEach(image => {
     const card = createImageCard(image);
     galleryContainer.appendChild(card);
   });
 
-  // Inițializează lightbox-ul
+
   const lightbox = new SimpleLightbox('.gallery a', {
     captionData: 'alt',
     captionDelay: 250,
