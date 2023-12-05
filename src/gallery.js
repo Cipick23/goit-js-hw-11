@@ -15,14 +15,21 @@ export function unpackPhotos(images) {
  
   formattedImages.forEach(image => {
     const card = createImageCard(image);
-    galleryContainer.appendChild(card);
+    const link = document.createElement('a');
+    link.href = image.largeImageURL;
+    link.appendChild(card);
+    galleryContainer.appendChild(link);
   });
 
 
-  const lightbox = new SimpleLightbox('.gallery a', {
-    captionData: 'alt',
-    captionDelay: 250,
-  });
+  const lightboxInit = () => {
+    const lightbox = new SimpleLightbox('.gallery a', {
+      captionData: 'alt',
+      captionDelay: 250,
+    });
+  };
+
+  lightboxInit();
 
   Notiflix.Notify.success(`Successfully loaded ${formattedImages.length} images.`);
 

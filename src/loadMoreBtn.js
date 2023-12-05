@@ -1,5 +1,5 @@
 import Notiflix from 'notiflix';
-import { createImageCard, galleryContainer } from './markup.js';
+import { createImageCard } from './markup.js';
 
 export default class LoadMoreBtn {
   constructor(selector, photosApi) {
@@ -24,7 +24,16 @@ export default class LoadMoreBtn {
       if (images.length > 0) {
         this.displayImages(images);
         this.photosApi.incrementPage();
+
+        // Verificați dacă butonul "Load more" trebuie să fie afișat sau ascuns după fiecare încărcare
+        if (this.photosApi.hasMorePages()) {
+          this.show();
+        } else {
+          this.hide();
+          Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+        }
       } else {
+        // Dacă nu există imagini, ascundeți butonul
         this.hide();
         Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
       }
@@ -35,10 +44,15 @@ export default class LoadMoreBtn {
   }
 
   displayImages(images) {
-    images.forEach(image => {
-      const card = createImageCard(image);
-      galleryContainer.appendChild(card);
-    });
+    if (images.length > 0) {
+      images.forEach(image => {
+        const card = createImageCard(image);
+        document.querySelector('.gallery').appendChild(card);
+      });
+
+      // Apelați funcția pentru derularea ușoară
+      scrollSmoothlyAfterImages();
+    }
   }
 
   hide() {
@@ -48,4 +62,15 @@ export default class LoadMoreBtn {
   show() {
     this.button.style.display = "block";
   }
+}
+
+function scrollSmoothlyAfterImages() {
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
 }

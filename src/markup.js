@@ -1,15 +1,15 @@
 export const galleryContainer = document.querySelector('.gallery');
 
 function createImageCard(image) {
-  const card = document.createElement('div');
-  card.classList.add('photo-card');
-  card.style.borderRadius = '4px';
-  card.style.boxShadow = '1px 4px 6px 0px rgba(0, 0, 0, 0.16), 0px 4px 4px 0px rgba(0, 0, 0, 0.06), 0px 1px 1px 0px rgba(0, 0, 0, 0.12)';
-
   const link = document.createElement('a');
   link.href = image.largeImageURL;
   link.setAttribute('data-lightbox', 'gallery');
   link.classList.add('simplelightbox');
+
+  const card = document.createElement('div');
+  card.classList.add('photo-card');
+  card.style.borderRadius = '4px';
+  card.style.boxShadow = '1px 4px 6px 0px rgba(0, 0, 0, 0.16), 0px 4px 4px 0px rgba(0, 0, 0, 0.06), 0px 1px 1px 0px rgba(0, 0, 0, 0.12)';
 
   const img = document.createElement('img');
   img.src = image.webformatURL;

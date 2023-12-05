@@ -23,6 +23,14 @@ async function onFormSubmit(event) {
     if (images.length > 0) {
       loadMoreBtn.show();
       loadMoreBtn.displayImages(images);
+
+      // Verifică dacă mai sunt imagini disponibile după încărcare
+      if (photosApi.hasMorePages()) {
+        loadMoreBtn.show();
+      } else {
+        loadMoreBtn.hide();
+        Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+      }
     } else {
       Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
@@ -32,11 +40,4 @@ async function onFormSubmit(event) {
     console.error('Error fetching photos:', error);
     Notiflix.Notify.failure('Error fetching images. Please try again later.');
   }
-}
-
-function createInfoItem(label, value) {
-  const infoItem = document.createElement('p');
-  infoItem.classList.add('info-item');
-  infoItem.innerHTML = `<b>${label}:</b> ${value}`;
-  return infoItem;
 }
